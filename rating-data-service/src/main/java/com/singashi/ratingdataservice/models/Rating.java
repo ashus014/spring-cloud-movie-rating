@@ -1,4 +1,4 @@
-package com.singashi.moviecatalogueservice.models;
+package com.singashi.ratingdataservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CatalogItem {
-    private String name;
-    private String desc;
+public class Rating {
+    private String movieId;
     private int rating;
 }
