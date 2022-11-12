@@ -15,11 +15,11 @@ public class MovieCatalogueServiceApplication {
 	@Bean
 	@LoadBalanced
 	public RestTemplate getRestTemplate() {
-//		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 		// setting timeout for 3 seconds
-//		clientHttpRequestFactory.setConnectTimeout(3000);
+		clientHttpRequestFactory.setConnectTimeout(3000);
 		// returning RestTemplate Object with 3 seconds timeout
-		return new RestTemplate();
+		return new RestTemplate(clientHttpRequestFactory);
 	}
 
 	public static void main(String[] args) {
