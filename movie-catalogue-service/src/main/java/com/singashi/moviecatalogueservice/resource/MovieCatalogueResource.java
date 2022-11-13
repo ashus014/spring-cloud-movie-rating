@@ -1,5 +1,6 @@
 package com.singashi.moviecatalogueservice.resource;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.singashi.moviecatalogueservice.models.CatalogItem;
 import com.singashi.moviecatalogueservice.models.Movie;
 import com.singashi.moviecatalogueservice.models.UserRating;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,7 @@ public class MovieCatalogueResource {
     private RestTemplate restTemplate;
 
     @RequestMapping("/{userId}")
+    @HystrixCommand(fallbackMethod = "getFallbackCatalog")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
         // get all rated movie IDs
@@ -31,5 +35,9 @@ public class MovieCatalogueResource {
             // Put them all together
             return new CatalogItem(movie.getName(), "Desc", rating.getRating());
         }).collect(Collectors.toList());
+    }
+
+    public List<CatalogItem> getFallbackCatalog(@PathVariable("userId") String userId) {
+        return Arrays.asList(new CatalogItem("No Movie","", 0));
     }
 }
